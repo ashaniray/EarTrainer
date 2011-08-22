@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EarTrainer", "EarTrainer.vcproj", "{22CD9E1D-98A8-487E-8D8B-777D033CD13F}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 2
+		SccProjectName0 = \u0022$/EarTrainer\u0022,\u0020DBAAAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		CanCheckoutShared = false
+		SccProjectUniqueName1 = EarTrainer.vcproj
+		SccLocalPath1 = .
+		CanCheckoutShared = false
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22CD9E1D-98A8-487E-8D8B-777D033CD13F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{22CD9E1D-98A8-487E-8D8B-777D033CD13F}.Debug|Win32.Build.0 = Debug|Win32
+		{22CD9E1D-98A8-487E-8D8B-777D033CD13F}.Release|Win32.ActiveCfg = Release|Win32
+		{22CD9E1D-98A8-487E-8D8B-777D033CD13F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
