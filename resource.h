@@ -1,5 +1,5 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
+// Microsoft Visual C++ generated include file.
 // Used by EarTrainer.rc
 //
 #define IDM_ABOUTBOX                    0x0010
@@ -93,6 +93,8 @@
 #define IDC_CHECK_INTERVAL_DESC_2       1087
 #define IDC_CHECK_INTERVAL_DESC_1       1088
 #define IDC_COMBO_INTERVAL_PITCH        1090
+#define IDC_CHECK1                      1091
+#define IDC_CHECK_INTERVAL_DIADMODE     1091
 
 // Next default values for new objects
 // 
@@ -100,7 +102,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1091
+#define _APS_NEXT_CONTROL_VALUE         1092
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

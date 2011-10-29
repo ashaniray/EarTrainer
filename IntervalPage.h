@@ -56,6 +56,7 @@ public:
 	BOOL	m_bCheckDesc7;
 	BOOL	m_bCheckDesc8;
 	BOOL	m_bCheckDesc9;
+	BOOL	m_bIsDiadMode;
 	int		m_nComboPitchIndex;
 	//}}AFX_DATA
 
@@ -67,6 +68,7 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
+	static VOID CALLBACK DiadTimer(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 // Implementation
 protected:
 	// Generated message map functions
@@ -94,6 +96,7 @@ private:
 	*/
 	void CreateNotes();
 	void PlayNotes();
+	BOOL PlayDiad();
 
 	std::vector<DWORD> m_vNotes;
 	
@@ -101,6 +104,8 @@ private:
 	DWORD GetInterval();
 
 	bool m_bIsValidateInput;
+
+	friend VOID CALLBACK DiadTimer(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 };
 

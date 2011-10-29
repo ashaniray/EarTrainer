@@ -24,6 +24,7 @@ IMPLEMENT_DYNCREATE(CIntervalPage, CPropertyPage)
 
 
 CIntervalPage::CIntervalPage() : CPropertyPage(CIntervalPage::IDD)
+, m_bIsDiadMode(false)
 {
 	//{{AFX_DATA_INIT(CIntervalPage)
 	m_csResult = _T("");
@@ -117,6 +118,7 @@ void CIntervalPage::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_INTERVAL_DESC_7, m_bCheckDesc7);
 	DDX_Check(pDX, IDC_CHECK_INTERVAL_DESC_8, m_bCheckDesc8);
 	DDX_Check(pDX, IDC_CHECK_INTERVAL_DESC_9, m_bCheckDesc9);
+	DDX_Check(pDX, IDC_CHECK_INTERVAL_DIADMODE, m_bIsDiadMode);
 	DDX_CBIndex(pDX, IDC_COMBO_INTERVAL_PITCH, m_nComboPitchIndex);
 	//}}AFX_DATA_MAP
 
@@ -316,6 +318,7 @@ void CIntervalPage::CreateNotes()
 	m_csNotesPlayed = "";
 	UpdateData(FALSE);
 
+	for_each(m_vNotes.begin(), m_vNotes.end(), CNoteUtils::MidiNoteOff);
 	m_vNotes.clear();
 
 	DWORD dwFirstNote = GetFirstNote();
@@ -333,7 +336,48 @@ void CIntervalPage::PlayNotes()
 {
 	UpdateData(TRUE);
 	if (m_vNotes.size() > 0)
-		SetTimer(0, 0, NULL);
+	{
+		if (m_bIsDiadMode)
+		{
+			PlayDiad();
+		}
+		else
+		{
+			SetTimer(0, 0, NULL);
+		}
+	}
+	
+}
+
+VOID CALLBACK CIntervalPage::DiadTimer(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	::KillTimer(hWnd, idEvent);
+
+	CWnd *pWnd = FromHandlePermanent(hWnd);
+	CIntervalPage *pIntervalPage = dynamic_cast<CIntervalPage*>(pWnd);
+	
+	std::vector<DWORD>::iterator iterEnd = pIntervalPage->m_vNotes.end();
+	for (std::vector<DWORD>::iterator iter = pIntervalPage->m_vNotes.begin(); iter != iterEnd; ++iter)
+	{
+		DWORD dwNote = *iter;
+		CNoteUtils::MidiNoteOff(dwNote);
+	}
+}
+
+BOOL CIntervalPage::PlayDiad()
+{
+	std::vector<DWORD>::iterator iterEnd = m_vNotes.end();
+	for (std::vector<DWORD>::iterator iter = m_vNotes.begin(); iter != iterEnd; ++iter)
+	{
+		DWORD dwNote = *iter;
+		CNoteUtils::MidiNoteOn(dwNote);
+	}
+	CString csTempo;
+	GetDlgItemText(IDC_EDIT_INTERVAL_TEMPO, csTempo);
+	DWORD dwTempo = atoi((LPCTSTR)csTempo);
+	DWORD dwElapse = 1000*60/dwTempo;
+	SetTimer(0, dwElapse, DiadTimer);
+	return true;
 }
 
 BOOL CIntervalPage::UpdateData(BOOL bSaveAndValidate)
@@ -349,16 +393,16 @@ BOOL CIntervalPage::UpdateData(BOOL bSaveAndValidate)
 void CIntervalPage::OnTimer(UINT nIDEvent) 
 {
 	KillTimer(nIDEvent);
-	if (nIDEvent > m_vNotes.size() - 1)
+	if (nIDEvent > m_vNotes.size())
 		return;
 
-	DWORD dwNote = m_vNotes[nIDEvent];
 	if (nIDEvent > 0)
 	{
 		CNoteUtils::MidiNoteOff(m_vNotes[nIDEvent - 1]);
 	}
 	if (m_vNotes.size() > nIDEvent)
 	{
+		DWORD dwNote = m_vNotes[nIDEvent];
 		CNoteUtils::MidiNoteOn(dwNote);
 	}
 	else
@@ -502,6 +546,7 @@ bool CIntervalPage::IsAscending()
 
 void CIntervalPage::OnButtonClearResults() 
 {
+	UpdateData(TRUE);
 	m_csResult.Empty();
 	UpdateData(FALSE);
 }
